@@ -5,7 +5,7 @@ User = get_user_model()
 
 
 class Service(models.Model):
-    """Модель услуги/сервиса, который можно записаться"""
+    # Модель услуги/сервиса, который на можно записаться
     name = models.CharField(max_length=100, verbose_name="Название услуги")
     description = models.TextField(blank=True, verbose_name="Описание")
     duration = models.DurationField(verbose_name="Продолжительность")
@@ -21,7 +21,7 @@ class Service(models.Model):
 
 
 class Specialist(models.Model):
-    """Модель специалиста, оказывающего услуги"""
+    # Модель специалиста, оказывающего услуги
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='specialist')
     services = models.ManyToManyField(Service, related_name='specialists')
     bio = models.TextField(blank=True, verbose_name="О специалисте")
@@ -36,7 +36,7 @@ class Specialist(models.Model):
 
 
 class Schedule(models.Model):
-    """Расписание специалиста"""
+    # Расписание специалиста
     specialist = models.ForeignKey(Specialist, on_delete=models.CASCADE, related_name='schedules')
     date = models.DateField(verbose_name="Дата")
     start_time = models.TimeField(verbose_name="Время начала")
@@ -53,7 +53,7 @@ class Schedule(models.Model):
 
 
 class Appointment(models.Model):
-    """Запись на прием"""
+    # Запись на прием
     client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments')
     specialist = models.ForeignKey(Specialist, on_delete=models.CASCADE, related_name='appointments')
     service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='appointments')
@@ -80,7 +80,7 @@ class Appointment(models.Model):
 
 
 class Holiday(models.Model):
-    """Выходные/праздничные дни специалиста"""
+    # Выходные/праздничные дни специалиста
     specialist = models.ForeignKey(Specialist, on_delete=models.CASCADE, related_name='holidays')
     date = models.DateField(verbose_name="Дата")
     reason = models.CharField(max_length=255, blank=True, verbose_name="Причина")
@@ -92,3 +92,7 @@ class Holiday(models.Model):
         verbose_name = "Выходной день"
         verbose_name_plural = "Выходные дни"
         unique_together = ('specialist', 'date')
+
+
+class ScheduleTemplate:
+    pass
